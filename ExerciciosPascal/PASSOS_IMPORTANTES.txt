@@ -1,0 +1,13 @@
+PASSOS IMPORTANTES ANTES DE PROGRAMAR
+    p1 - Compreender o Problema = Cálculo de média
+    p2 - Dados de Entrada = Duas notas
+    p3 - Dados de Saída = Média
+    p4 - Resultados Esperados = 0 a 10;
+    p5 - Soma e Divisão
+    p6 - Algoritimo = Media_aluno
+                                            variáveis
+                                                nota1: real
+                                                nota2: real
+                                                media: real
+    p7 - teste de mesa / comparar com passo 04     |||MEMÓRIA X TELA||| depurar
+    p8 - chegou no resultado esperado?		
