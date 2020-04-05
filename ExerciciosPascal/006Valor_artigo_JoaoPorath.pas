@@ -14,8 +14,8 @@ Begin
   readln(valor);
   valor := valor - (valor * perc_desc);
   writeln('VALOR:');
-	writeln('À VISTA = R$ ',valor :2:2);
+	writeln('Å” VISTA = R$ ',valor :2:2);
   valor := valor * (1 + perc_acrec)/n_parc;
-	writeln('À PRAZO = ',n_parc,' x R$ ',valor :2:2);
+	writeln('Å” PRAZO = ',n_parc,' x R$ ',valor :2:2);
 	readln;  
 End.
