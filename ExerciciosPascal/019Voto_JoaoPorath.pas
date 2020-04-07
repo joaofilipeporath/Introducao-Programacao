@@ -13,8 +13,7 @@ d) Percentual de votos de cada candidato em rela��o ao total de votos valido
 
 Program Voto ;
 var
-vote: integer;
-id_01, id_02, id_03, id_04, id_nulo, id_branco : integer;
+vote, id_01, id_02, id_03, id_04, id_nulo, id_branco : integer;
 
 Begin
 	writeln('-----------------------------------------------------------');
@@ -35,23 +34,27 @@ Begin
 				1: id_01 := id_01 + 1; 
 				2: id_02 := id_02 + 1;
 				3: id_03 := id_03 + 1;
-				4: id_04 := id_04 + 1;                                       
-				5: id_nulo := id_nulo + 1;
+				4: id_04 := id_04 + 1;                          
 				6: id_branco := id_branco + 1;
 				else
-					writeln('Opcao invalida!!!');
+					id_nulo := id_nulo + 1;
 			end;
 			write('Insira o voto: ');
 			readln(vote);
 		end;
-	writeln('-----------------------------------------------------------');
-	writeln('RESULTADOS:');
-	writeln('1 - Patolino   = ', id_01, ' voto(s) -> [', id_01/(id_01+id_02+id_03+id_04)*100 :2:2,'%] dos votos validos.');
-	writeln('2 - Pernalonga = ', id_02, ' voto(s) -> [', id_02/(id_01+id_02+id_03+id_04)*100 :2:2,'%] dos votos validos.');
-	writeln('3 - Papaleguas = ', id_03, ' voto(s) -> [', id_03/(id_01+id_02+id_03+id_04)*100 :2:2,'%] dos votos validos.');
-	writeln('4 - Coiote     = ', id_04, ' voto(s) -> [', id_04/(id_01+id_02+id_03+id_04)*100 :2:2,'%] dos votos validos.');
-	writeln('5 - NULO       = ', id_nulo, ' voto(s).');
-	writeln('6 - BRANCO     = ', id_branco, ' voto(s).');
-	writeln('-----------------------------------------------------------');
-	readln();		  
+	if ((id_01 + id_02 + id_03 + id_04) > 0) them
+		begin
+			writeln('-----------------------------------------------------------');
+			writeln('RESULTADOS:');
+			writeln('1 - Patolino   = ', id_01, ' voto(s) -> [', id_01/(id_01+id_02+id_03+id_04)*100 :2:2,'%] dos votos validos.');
+			writeln('2 - Pernalonga = ', id_02, ' voto(s) -> [', id_02/(id_01+id_02+id_03+id_04)*100 :2:2,'%] dos votos validos.');
+			writeln('3 - Papaleguas = ', id_03, ' voto(s) -> [', id_03/(id_01+id_02+id_03+id_04)*100 :2:2,'%] dos votos validos.');
+			writeln('4 - Coiote     = ', id_04, ' voto(s) -> [', id_04/(id_01+id_02+id_03+id_04)*100 :2:2,'%] dos votos validos.');
+			writeln('5 - NULO       = ', id_nulo, ' voto(s).');
+			writeln('6 - BRANCO     = ', id_branco, ' voto(s).');
+			writeln('-----------------------------------------------------------');
+			readln();
+		end	
+	else
+		writeln ('Nao houve eleicao!');		  
 End.
