@@ -1,1 +1,8 @@
-https://sandbox.cs50.io/4a6403fc-b761-4661-991f-ba0619386afc
+#include <cs50.h>
+#include <stdio.h>
+
+int main (void)
+{
+    string answer = get_string("What's your name?\n");
+    printf("hello, %s\n", answer);
+}
