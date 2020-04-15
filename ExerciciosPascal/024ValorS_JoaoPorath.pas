@@ -16,7 +16,7 @@ Begin
 				else
 				begin
 					s:= s - i/(i*i);
-					writeln('- ',i,'/',i*i,' = ', i/(i*i):2:2);
+					writeln('- ',i,'/',i*i,' = ', -i/(i*i):2:2);
 				end;				
 		end;	  
 writeln('---------------');

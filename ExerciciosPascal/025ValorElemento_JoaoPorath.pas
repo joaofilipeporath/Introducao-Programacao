@@ -18,7 +18,7 @@ Begin
 			else
 			begin
 			  s:= s - 5/n;
-				writeln('- 5/',n,' = ',5/n,' Acumulado = ',s);
+				writeln('- 5/',n,' = ',-5/n,' Acumulado = ',s);
 				n:= n - 50;
 			end;
 writeln ('S = ',s); 
