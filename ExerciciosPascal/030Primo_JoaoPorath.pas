@@ -6,19 +6,19 @@ number, i: integer;
 verificator: boolean;
 
 Begin    
-		write('Numero: ');
-	  readln(number);
-		while (number <> 0) do		
-		begin			
+    write('Numero: ');
+    readln(number);
+    while (number <> 0) do		
+    begin			
 	    verificator := true;
 	    for i := 2 to (number-1) do    
 	        if (number mod i = 0) then         
 	            verificator := false;   
-	    if (verificator = false) then   
-	        writeln('O numero ', number, ' nao eh primo.')    
+	    if ((verificator = false) or (number = 1)) then   
+	        writeln(number, ' nao eh um numero primo.')    
 	    else  
-	        writeln('O numero ', number, ' eh primo.');
+	        writeln(number, ' eh um numero primo.');
 	  	write('Numero: ');
 	  	readln(number);
-	  end;    
+    end;    
 End.
