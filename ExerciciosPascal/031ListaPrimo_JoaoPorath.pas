@@ -18,13 +18,15 @@ Begin
 						verificator := true;    
             for j:= 2 to (i-1) do
                 if (i mod j = 0) then                    
-									verificator := false;					                       
-        
+									begin
+										verificator := false;
+										break;
+									end;       
             if ((verificator = true) and (i <> 1)) then   
                 begin
-									count := count + 1;
-									writeln(i);
-								end;           
+                    count := count + 1;
+                    writeln(i);
+                end;           
         end;
         writeln('Quantidade de numeros primos no intervalo: ', count);
         write('Intervalo inicial: ');

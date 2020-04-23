@@ -13,7 +13,10 @@ Begin
 	    verificator := true;
 	    for i := 2 to (number-1) do    
 	        if (number mod i = 0) then         
-	            verificator := false;   
+	        begin
+						verificator := false;
+						break;
+					end;   
 	    if ((verificator = false) or (number = 1)) then   
 	        writeln(number, ' nao eh um numero primo.')    
 	    else  
@@ -22,3 +25,4 @@ Begin
 	  	readln(number);
     end;    
 End.
+
