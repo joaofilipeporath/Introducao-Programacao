@@ -84,7 +84,7 @@ Begin
                     writeln('    - MOTOR: ', listaVeiculos[i].motor);
                     writeln('    - CHASSI: ',listaVeiculos[i].chassi);
                     writeln('    - COR: ',listaVeiculos[i].cor);
-                    writeln('    - MONTADORA: ',listaVeiculos[i].montadora);    
+                    writeln('    - MONTADORA: ',listaVeiculos[i].montadora);                        
                 end;
     readln();
 End.
