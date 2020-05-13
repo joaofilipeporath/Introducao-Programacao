@@ -78,7 +78,7 @@ Begin
             ((ord(listaVeiculos[i].placa[7]) - 48) mod 2 <> 0) then
                 begin
                     writeln(' ');
-										writeln('    VEICULO NUMERO: ', i);
+					writeln('    VEICULO NUMERO: ', i);
                     writeln('    - PLACA: ',listaVeiculos[i].placa);
                     writeln('    - ANO: ',listaVeiculos[i].ano);
                     writeln('    - MOTOR: ', listaVeiculos[i].motor);
