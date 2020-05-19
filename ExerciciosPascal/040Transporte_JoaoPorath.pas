@@ -70,15 +70,11 @@ Begin
     writeln('--------------');
     writeln('VEICULOS CUJA PLACA INICIA COM VOGAL E TERMINA COM NUMERO IMPAR:');
     for i := 1 to cont do        
-        if  ((upcase(listaVeiculos[i].placa[1]) = 'A') or
-        		(upcase(listaVeiculos[i].placa[1]) = 'E') or
-        		(upcase(listaVeiculos[i].placa[1]) = 'I') or
-        		(upcase(listaVeiculos[i].placa[1]) = 'O') or
-        		(upcase(listaVeiculos[i].placa[1]) = 'U')) and
+        if  (upcase(listaVeiculos[i].placa[1]) in ['A','E','I','O','U']) and
             ((ord(listaVeiculos[i].placa[7]) - 48) mod 2 <> 0) then
                 begin
                     writeln(' ');
-					writeln('    VEICULO NUMERO: ', i);
+										writeln('    VEICULO NUMERO: ', i);
                     writeln('    - PLACA: ',listaVeiculos[i].placa);
                     writeln('    - ANO: ',listaVeiculos[i].ano);
                     writeln('    - MOTOR: ', listaVeiculos[i].motor);
