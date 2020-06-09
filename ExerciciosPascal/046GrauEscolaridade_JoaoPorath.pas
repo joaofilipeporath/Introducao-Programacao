@@ -58,20 +58,20 @@ function getSchooling : integer;
 
 // funcao para armazenar as pessoas
 function getPeople(var i : integer) : TPeopleList;
-    var
-    		people : TPeopleList;
-		begin        
-            repeat
-                inc(i);
-                writeln('-------------------------');
-                writeln('PESSOA NUMERO ', i);
-                people[i].age := getAge;
-                if (people[i].age <> 0) then
-                    people[i].schooling := getSchooling                		        
-            until (people[i].age = 0);
-            dec(i);
-            getPeople := people;
-		end;
+    var        
+        people : TPeopleList;
+    begin        
+        repeat
+            inc(i);
+            writeln('-------------------------');
+            writeln('PESSOA NUMERO ', i);
+            people[i].age := getAge;
+            if (people[i].age <> 0) then
+                people[i].schooling := getSchooling                		        
+        until (people[i].age = 0);
+        dec(i);
+        getPeople := people;
+    end;
 		
 // funcao para obter numero de pessoas por escolaridade e limite de idade
 function getPeoplePerSchooling(age, schooling, n : integer; people : TPeopleList) : integer;
@@ -165,7 +165,7 @@ procedure printMinorAge(schooling, n : integer; people : TPeopleList);
                 if (people[i].schooling = schooling) and (people[i].age < minor_age) then
                     begin
                         minor_age := people[i].age;
-                    end
+                    end;
             end;
         writeln('A pessoa com menor idade com ', nameofSchooling(schooling), ' concluido tem ', minor_age, ' anos.'); 
     end;
@@ -179,18 +179,18 @@ procedure menu;
     begin      
         n := 0;        
         repeat           
-						writeln('-------------------------');
-						writeln('          MENU');
-						writeln('-------------------------');						
-						writeln('1 - Armazenar pessoas.');
+            writeln('-------------------------');
+            writeln('          MENU');
+            writeln('-------------------------');						
+            writeln('1 - Armazenar pessoas.');
             writeln('2 - Imprimir numero de pessoas por escolaridade.');
             writeln('3 - Imprimir escolaridade com maior e menor numero de pessoas.');
             writeln('4 - Imprimir percentual de pessoas que concluiram o ', nameofSchooling(3), ' antes dos 24 anos.');
             writeln('5 - Imprimir media de idade da pessoas que concluiram o ', nameofSchooling(5), '.');
             writeln('6 - Imprimir menor idade da pessoa com ', nameofSchooling(6), '.');
             writeln('0 - SAIR');
-						write('>> ');
-						readln(op);
+            write('>> ');
+            readln(op);
             case (op) of
                 1: people := getPeople(n);
                 2: printPeoplePerSchooling(n, people);
@@ -203,5 +203,5 @@ procedure menu;
     end;
 
 Begin
-		menu;
+	menu;
 End.
