@@ -1,0 +1,291 @@
+Program PrBancoDJJLT;
+
+Type
+	TCliente = record
+		num_conta : integer;
+		nome : string[25];
+		cpf : string[11];
+		data_nascimento : string[10];
+		contato : string[14];
+		senha : string[8];
+		saldo : real;
+	end;
+	
+	TFuncionario = record
+		login : string[10];
+		nome : string[25];
+		cpf : string[11];
+		senha : string[8];
+	end;
+	
+	TListaFuncionario = array[1..10] of TFuncionario;	
+	TListaCliente = array[1..10] of TCliente;
+	
+procedure inserirLinha;
+begin
+	writeln('--------------------------------');
+end;
+
+procedure finalizarMenu;
+begin
+	writeln('[ENTER] PARA FINALIZAR.');
+	readln();
+end;
+
+function getNumConta(i: integer): integer;
+var
+x : integer;
+begin
+	x := 100100 + i;
+	writeln('NUMERO DA CONTA: ', x);	
+	getNumConta := x; //retorno da funcao
+end;
+
+function getNome: string;
+var
+	x : string;
+begin
+	write('NOME: ');
+	readln(x);
+	getNome := x; //retorno da funcao
+end; 
+
+function getCPF: string;
+var
+	x : string;
+begin
+	write('CPF: ');
+	readln(x);
+	getCPF := x; //retorno da funcao
+end;
+
+function getDataNascimento: string;
+var
+	x : string;
+begin
+	write('DATA DE NASCIMENTO: ');
+	readln(x);
+	getDataNascimento := x; //retorno da funcao
+end;
+
+function getContato: string;
+var
+	x : string;
+begin
+	write('CONTATO: ');
+	readln(x);
+	getContato := x; //retorno da funcao
+end;
+
+function getLogin: string;
+var
+	x : string;
+begin
+	write('LOGIN: ');
+	readln(x);
+	getLogin := x;  //retorno da funcao
+end;
+
+function getSenha: string;
+var
+	x : string;
+begin
+	write('SENHA: ');
+	readln(x);
+	getSenha := x; //retorno da funcao
+end;
+
+procedure getCliente(var cliente : TListaCliente; var i: integer); //i = qtde_Cliente 
+begin
+	clrscr;
+	inc(i);
+	writeln('CADASTRO CONTA CLIENTE');
+	inserirLinha;
+	cliente[i].num_conta := getNumConta(i);
+	cliente[i].nome := getNome;
+	cliente[i].cpf := getCPF;
+	cliente[i].data_nascimento := getDataNascimento;
+	cliente[i].contato := getContato;
+	cliente[i].senha := getSenha;
+	inserirLinha;
+	writeln('CLIENTE CADASTRADO COM SUCESSO!');
+	finalizarMenu;
+end;
+
+procedure getFuncionario(var funcionario : TListaFuncionario; var i: integer); //i = qtde_Funcionario 
+begin
+	clrscr;
+	inc(i);
+	writeln('CADASTRO FUNCIONARIO');
+	inserirLinha;
+	funcionario[i].login := getLogin;
+	funcionario[i].nome := getNome;
+	funcionario[i].cpf := getCPF;
+	funcionario[i].senha := getSenha;
+	inserirLinha;	
+	writeln('FUNCIONARIO CADASTRADO COM SUCESSO!');
+	finalizarMenu;
+end;
+
+procedure listarClientes(cliente: TListaCliente; qtde_cliente : integer);
+var
+i : integer;
+begin
+	for i := 1 to qtde_cliente do
+		begin
+			writeln('CONTA: ', cliente[i].num_conta, ' - NOME: ', cliente[i].nome);
+		end;
+	inserirLinha;
+	finalizarMenu;
+end;
+
+function getIndex(cliente: TListaCliente; qtde_cliente: integer): integer;
+var
+i, indexCPF : integer;
+cpf : string;
+begin
+	clrscr;
+	writeln('BUSCAR CLIENTE POR CPF');	
+	cpf := getCPF; // informando o CPF que estou procurando.
+	clrscr;
+	indexCPF := 0;
+	for i := 1 to qtde_cliente do
+		begin
+			if (cliente[i].cpf = cpf) then
+				begin
+					indexCPF := i;
+					break;	
+				end; 
+		end;
+	getIndex := indexCPF; //retorno da funcao
+end;
+
+procedure consultarCliente(cliente: TListaCliente; qtde_cliente: integer);
+var
+index : integer;
+begin
+	clrscr;
+	index := getIndex(cliente, qtde_cliente);
+	if (index <> 0) then
+		begin
+			writeln('DADOS CLIENTE');
+			inserirLinha;
+			writeln('CONTA: ', cliente[index].num_conta);
+			writeln('NOME: ', cliente[index].nome);
+			writeln('CPF: ', cliente[index].cpf);
+			writeln('DATA NASCIMENTO: ', cliente[index].data_nascimento);
+			writeln('CONTATO: ', cliente[index].contato);
+			writeln('SALDO: ', cliente[index].saldo);
+		end
+	else
+		writeln('CPF NAO ENCONTRADO!');
+	inserirLinha;
+	finalizarMenu;
+end;
+
+procedure menuFuncionario(var cliente : TListaCliente; var funcionario : TlistaFuncionario;																	
+													var qtde_cliente: integer; var qtde_funcionario: integer);
+var
+	op : integer;
+begin
+	repeat
+		clrscr;
+		writeln('ACESSO FUNCIONARIO');
+		inserirLinha;
+		writeln('1 - CADASTRAR CLIENTE');
+		writeln('2 - CADASTRAR FUNCIONARIO');
+		writeln('3 - LISTAR CLIENTES');
+		writeln('4 - CONSULTAR CLIENTE');
+		writeln('5 - VOLTAR');
+		inserirLinha;
+		write('>>> ');
+		readln(op);
+		case (op) of
+			1: getCliente(cliente, qtde_cliente);
+			2: getFuncionario(funcionario, qtde_funcionario);
+			3: listarClientes(cliente, qtde_cliente);
+			4: consultarCliente(cliente, qtde_cliente);
+			5: break;
+		end;
+	until (false);
+end;
+
+procedure menuCliente(var cliente : TlistaCliente; var qdte_cliente: integer);
+var
+	op : integer;
+begin
+	repeat
+		clrscr;		
+		writeln('ACESSO CLIENTE');
+		inserirlinha;
+		writeln('1 - CONSULTAR SALDO');
+		writeln('2 - DEPOSITO');
+		writeln('3 - SAQUE');
+		writeln('4 - TRANSFERENCIA');
+		writeln('5 - VOLTAR');
+		inserirLinha;
+		write('>>> ');
+		readln(op);
+		case (op) of
+			1: (*consultarSaldo(cliente, qtde_cliente)*);
+			2: (*efetuarDeposito*);
+			3: (*efetuarSaque*);
+			4: (*efetuarTransferencia*);
+			5: break;
+		end;
+	until (false);
+end;
+
+procedure menuInicial;
+var
+	op, qtde_cliente, qtde_funcionario: integer;
+	cliente : TListaCliente;
+	funcionario : TListaFuncionario;
+begin
+	qtde_funcionario := 0;
+	repeat
+		clrscr;		
+		writeln('ESCOLHA UMA OPCAO:');
+		inserirLinha;
+		writeln('1 - ACESSO FUNCIONARIO');
+		writeln('2 - ACESSO CLIENTE');
+		writeln('3 - FINALIZAR');
+		inserirLinha;
+		write('>>> ');
+		readln(op);
+		case (op) of
+			1: menuFuncionario(cliente, funcionario, qtde_cliente, qtde_funcionario);
+			2: menuCliente(cliente, qtde_cliente);
+			3: break;
+		end;		
+	until (false);	
+end;	
+
+procedure inicializar;
+begin
+	clrscr;
+	inserirLinha;
+	writeln('BEM VINDO AO BANCO DJJLT S.A.');
+	writeln('ONDE OS JUROS NAO EXISTEM');
+	inserirLinha;
+	writeln('[ENTER] PARA ENTRAR');
+	readln();	
+end;
+
+procedure finalizar;
+begin
+	clrscr;
+	writeln('AGRADECEMOS SUA PREFERENCIA!');
+	inserirLinha;
+	writeln('TRABALHO REALIZADO POR:');
+	writeln('DENNIS, JOAO, JEFFERSON, LUAN, THIAGO');
+	inserirLinha;
+	finalizarMenu;	
+end;
+
+//programa principal
+Begin
+	inicializar;
+	menuInicial;
+	finalizar;  
+End.
