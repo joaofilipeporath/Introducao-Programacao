@@ -132,8 +132,8 @@ conta : integer;
 begin
 	clrscr;
 	writeln('BUSCAR CLIENTE POR CONTA');	
-	conta := getNumConta; // informando o numero de conta que estou procurando.
-	clrscr;
+	inserirLinha;
+	conta := getNumConta; // informando o numero de conta que estou procurando.	
 	indexConta := 0;
 	for i := 1 to qtde_cliente do
 		begin
@@ -153,8 +153,8 @@ login : string;
 begin
 	clrscr;
 	writeln('BUSCAR FUNCIONARIO POR LOGIN');	
-	login := getLogin; // informando o numero de conta que estou procurando.
-	clrscr;
+	inserirLinha;
+	login := getLogin; // informando o numero de conta que estou procurando.	
 	indexlogin := 0;
 	for i := 1 to qtde_funcionario do
 		begin
@@ -176,14 +176,16 @@ begin
 		senha := getSenha;
 		if (i = 0) or (cliente[i].senha <> senha) then
 			begin
-		 		writeln('SENHA OU CONTA INCORRETA.');
-		 		readln;
+		 		inserirLinha;
+				writeln('SENHA OU CONTA INCORRETA.');
+		 		finalizarMenu;
 		 		autenticacaoSenhaCliente := 0;
 			end				
 		else
 			begin
+				inserirLinha;
 				writeln('ACESSO PERMITIDO.');
-				readln;
+				finalizarMenu;
 				autenticacaoSenhaCliente := i;
 			end;				
 end;
@@ -197,14 +199,16 @@ begin
 		senha := getSenha;
 		if (i = 0) or (funcionario[i].senha <> senha) then
 			begin
+				inserirLinha;
 				writeln('SENHA OU LOGIN INCORRETO.');
-				readln;
+				finalizarMenu;
 				autenticacaoSenhaFuncionario := false;
 			end				
 		else
 			begin
+				inserirLinha;
 				writeln('ACESSO PERMITIDO.');
-				readln;
+				finalizarMenu;
 				autenticacaoSenhaFuncionario := true;
 			end;				
 end;
@@ -277,14 +281,53 @@ begin
 			writeln('CPF: ', cliente[index].cpf);
 			writeln('DATA NASCIMENTO: ', cliente[index].data_nascimento);
 			writeln('CONTATO: ', cliente[index].contato);
-			writeln('SALDO: ', cliente[index].saldo);
+			writeln('SALDO: R$ ', cliente[index].saldo);
 		end
 	else
 		writeln('CPF NAO ENCONTRADO!');
 	inserirLinha;
 	finalizarMenu;
 end;
-  
+
+procedure consultarSaldo(cliente : TListaCliente; i : integer);
+begin
+	writeln('SALDO: R$ ', cliente[i].saldo :2:2);
+	finalizarMenu;
+end;
+
+procedure efetuarDeposito(var cliente : TListaCliente; i : integer);
+var
+	deposito : real;
+begin
+	clrscr;
+	writeln('DEPOSITO');
+	inserirLinha;
+	write('VALOR: R$ ');
+	readln(deposito);
+	cliente[i].saldo := cliente[i].saldo + deposito;
+	writeln(' DEPOSITO REALIZADO COM SUCESSO.');
+	finalizarMenu;
+end;
+
+procedure efetuarSaque(var cliente : TListaCliente; i : integer);
+var
+	saque, saldo : real;
+begin
+	clrscr;
+	writeln('SAQUE');
+	inserirLinha;
+	write('VALOR: R$ ');
+	readln(saque);	
+	saldo := cliente[i].saldo - saque;
+	if (saldo < 0) then
+		writeln('SALDO INSUFICIENTE.')
+	else
+		begin
+			cliente[i].saldo := saldo;	
+			writeln(' SAQUE REALIZADO COM SUCESSO.');
+		end;
+	finalizarMenu;
+end;  
 
 procedure menuFuncionario(var cliente : TListaCliente; var funcionario : TlistaFuncionario;																	
 													var qtde_cliente: integer; var qtde_funcionario: integer);
@@ -313,7 +356,7 @@ begin
 	until (false);
 end;
 
-procedure menuCliente(var cliente : TlistaCliente; var qtde_cliente: integer; i : integer);
+procedure menuCliente(var cliente : TlistaCliente; i : integer);
 var
 	op : integer;
 begin
@@ -330,9 +373,9 @@ begin
 		write('>>> ');
 		readln(op);
 		case (op) of
-			1: (*consultarSaldo(cliente, qtde_cliente)*);
-			2: (*efetuarDeposito*);
-			3: (*efetuarSaque*);
+			1: consultarSaldo(cliente, i);
+			2: efetuarDeposito(cliente, i);
+			3: efetuarSaque(cliente, i);
 			4: (*efetuarTransferencia*);
 			5: break;
 		end;
@@ -371,8 +414,7 @@ begin
 			    	i := autenticacaoSenhaCliente(cliente, qtde_cliente);
 						if (i <> 0) then	
 					  	begin
-								menuCliente(cliente, qtde_cliente, i);
-						  	break;
+								menuCliente(cliente, i);						  	
 						  end;					
 					end;												
 			3: break;
