@@ -32,12 +32,21 @@ begin
 	readln();
 end;
 
-function getNumConta(i: integer): integer;
+function setNumConta(i: integer): integer;
 var
 x : integer;
 begin
 	x := 100100 + i;
 	writeln('NUMERO DA CONTA: ', x);	
+	setNumConta := x; //retorno da funcao
+end;
+
+function getNumConta: integer;
+var
+	x : integer;
+begin
+	write('CONTA: ');
+	readln(x);
 	getNumConta := x; //retorno da funcao
 end;
 
@@ -95,13 +104,118 @@ begin
 	getSenha := x; //retorno da funcao
 end;
 
+function getIndexCPF(cliente: TListaCliente; qtde_cliente: integer): integer;
+var
+i, indexCPF : integer;
+cpf : string;
+begin
+	clrscr;
+	writeln('BUSCAR CLIENTE POR CPF');	
+	cpf := getCPF; // informando o CPF que estou procurando.
+	clrscr;
+	indexCPF := 0;
+	for i := 1 to qtde_cliente do
+		begin
+			if (cliente[i].cpf = cpf) then
+				begin
+					indexCPF := i;
+					break;	
+				end; 
+		end;
+	getIndexCPF := indexCPF; //retorno da funcao
+end;
+
+function getIndexConta(cliente: TListaCliente; qtde_cliente: integer): integer;
+var
+i, indexConta : integer;
+conta : integer;
+begin
+	clrscr;
+	writeln('BUSCAR CLIENTE POR CONTA');	
+	conta := getNumConta; // informando o numero de conta que estou procurando.
+	clrscr;
+	indexConta := 0;
+	for i := 1 to qtde_cliente do
+		begin
+			if (cliente[i].num_conta = conta) then
+				begin
+					indexConta := i;
+					break;	
+				end; 
+		end;
+	getIndexConta := indexConta; //retorno da funcao
+end;
+
+function getIndexLogin(funcionario: TListaFuncionario; qtde_funcionario: integer): integer;
+var
+i, indexLogin : integer;
+login : string;
+begin
+	clrscr;
+	writeln('BUSCAR FUNCIONARIO POR LOGIN');	
+	login := getLogin; // informando o numero de conta que estou procurando.
+	clrscr;
+	indexlogin := 0;
+	for i := 1 to qtde_funcionario do
+		begin
+			if (funcionario[i].login = login) then
+				begin
+					indexLogin := i;
+					break;	
+				end; 
+		end;
+	getIndexLogin := indexLogin; //retorno da funcao
+end;
+
+function autenticacaoSenhaCliente(cliente : TlistaCliente; qtde_cliente : integer) : integer;
+var
+i : integer;
+senha : string;
+begin
+		i := getIndexConta(cliente, qtde_cliente);
+		senha := getSenha;
+		if (i = 0) or (cliente[i].senha <> senha) then
+			begin
+		 		writeln('SENHA OU CONTA INCORRETA.');
+		 		readln;
+		 		autenticacaoSenhaCliente := 0;
+			end				
+		else
+			begin
+				writeln('ACESSO PERMITIDO.');
+				readln;
+				autenticacaoSenhaCliente := i;
+			end;				
+end;
+
+function autenticacaoSenhaFuncionario(funcionario : TlistaFuncionario; qtde_funcionario : integer) : boolean;
+var
+i : integer;
+senha : string;
+begin
+		i := getIndexLogin(funcionario, qtde_funcionario);
+		senha := getSenha;
+		if (i = 0) or (funcionario[i].senha <> senha) then
+			begin
+				writeln('SENHA OU LOGIN INCORRETO.');
+				readln;
+				autenticacaoSenhaFuncionario := false;
+			end				
+		else
+			begin
+				writeln('ACESSO PERMITIDO.');
+				readln;
+				autenticacaoSenhaFuncionario := true;
+			end;				
+end;
+
 procedure getCliente(var cliente : TListaCliente; var i: integer); //i = qtde_Cliente 
 begin
 	clrscr;
 	inc(i);
 	writeln('CADASTRO CONTA CLIENTE');
 	inserirLinha;
-	cliente[i].num_conta := getNumConta(i);
+	cliente[i].num_conta := setNumConta(i);
 	cliente[i].nome := getNome;
 	cliente[i].cpf := getCPF;
 	cliente[i].data_nascimento := getDataNascimento;
@@ -127,6 +241,15 @@ begin
 	finalizarMenu;
 end;
 
+procedure setFuncionarioAdmin(var funcionario : TListaFuncionario; var i: integer);
+begin	
+	inc(i);
+	funcionario[i].login := 'admin';
+	funcionario[i].nome := 'admin';
+	funcionario[i].cpf := 'admin';
+	funcionario[i].senha := 'admin';
+end;
+
 procedure listarClientes(cliente: TListaCliente; qtde_cliente : integer);
 var
 i : integer;
@@ -137,35 +260,14 @@ begin
 		end;
 	inserirLinha;
 	finalizarMenu;
-end;
-
-function getIndex(cliente: TListaCliente; qtde_cliente: integer): integer;
-var
-i, indexCPF : integer;
-cpf : string;
-begin
-	clrscr;
-	writeln('BUSCAR CLIENTE POR CPF');	
-	cpf := getCPF; // informando o CPF que estou procurando.
-	clrscr;
-	indexCPF := 0;
-	for i := 1 to qtde_cliente do
-		begin
-			if (cliente[i].cpf = cpf) then
-				begin
-					indexCPF := i;
-					break;	
-				end; 
-		end;
-	getIndex := indexCPF; //retorno da funcao
-end;
+end; 
 
 procedure consultarCliente(cliente: TListaCliente; qtde_cliente: integer);
 var
 index : integer;
 begin
 	clrscr;
-	index := getIndex(cliente, qtde_cliente);
+	index := getIndexConta(cliente, qtde_cliente);   // identificando atraves da conta ** criar metodo para consultar Cliente atraves do CPF
 	if (index <> 0) then
 		begin
 			writeln('DADOS CLIENTE');
@@ -182,14 +284,15 @@ begin
 	inserirLinha;
 	finalizarMenu;
 end;
+  
 
 procedure menuFuncionario(var cliente : TListaCliente; var funcionario : TlistaFuncionario;																	
 													var qtde_cliente: integer; var qtde_funcionario: integer);
 var
 	op : integer;
-begin
+begin	
 	repeat
-		clrscr;
+		clrscr;		
 		writeln('ACESSO FUNCIONARIO');
 		inserirLinha;
 		writeln('1 - CADASTRAR CLIENTE');
@@ -210,7 +313,7 @@ begin
 	until (false);
 end;
 
-procedure menuCliente(var cliente : TlistaCliente; var qdte_cliente: integer);
+procedure menuCliente(var cliente : TlistaCliente; var qtde_cliente: integer; i : integer);
 var
 	op : integer;
 begin
@@ -236,13 +339,18 @@ begin
 	until (false);
 end;
 
+
+
 procedure menuInicial;
 var
 	op, qtde_cliente, qtde_funcionario: integer;
 	cliente : TListaCliente;
 	funcionario : TListaFuncionario;
+	i : integer;
 begin
+	qtde_cliente := 0;
 	qtde_funcionario := 0;
+	setFuncionarioAdmin(funcionario, qtde_funcionario);	
 	repeat
 		clrscr;		
 		writeln('ESCOLHA UMA OPCAO:');
@@ -254,8 +362,19 @@ begin
 		write('>>> ');
 		readln(op);
 		case (op) of
-			1: menuFuncionario(cliente, funcionario, qtde_cliente, qtde_funcionario);
-			2: menuCliente(cliente, qtde_cliente);
+			1:  while (autenticacaoSenhaFuncionario(funcionario, qtde_funcionario)) do						
+						begin
+							menuFuncionario(cliente, funcionario, qtde_cliente, qtde_funcionario);
+							break;
+						end;	
+			2:  begin
+			    	i := autenticacaoSenhaCliente(cliente, qtde_cliente);
+						if (i <> 0) then	
+					  	begin
+								menuCliente(cliente, qtde_cliente, i);
+						  	break;
+						  end;					
+					end;												
 			3: break;
 		end;		
 	until (false);	
@@ -287,5 +406,5 @@ end;
 Begin
 	inicializar;
 	menuInicial;
-	finalizar;  
+	finalizar;
 End.
